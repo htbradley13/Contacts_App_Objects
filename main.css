@@ -1,0 +1,17 @@
+* {
+  box-sizing: border-box;
+  padding: 5px;
+}
+
+.formBlock {
+	max-width: 50%;
+}
+
+.contactDisplay {
+	float: right;
+	margin-right: 30%;
+}
+
+.addressItem, .contactItem {
+	padding-left: 50px;
+}
