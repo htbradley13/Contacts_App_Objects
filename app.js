@@ -1,3 +1,6 @@
+/* Create an array to contain each new contact object created */
+var contacts = [];
+
 var Contact = {
 	firstName: "",
 	lastName: "",
@@ -5,10 +8,9 @@ var Contact = {
 	street: "",
 	city: "",
 	state: "",
-	idNumber: "",
-	displayed: false
 }
 
+/* Create Contact function, setting object values based on form input fields */
 function CreateNewContact(){
 	var newContact = Object.create(Contact);
 	newContact.firstName = $("#firstName").val();
@@ -18,17 +20,20 @@ function CreateNewContact(){
 	newContact.street = $("#street").val();
 	newContact.city = $("#city").val();
 	newContact.state = $("#state").val();
+	contacts.push(newContact);
 }
 
-function DisplayContact(){
-	$(".contactDisplay").show(); /*
-	$("#firstNameDis").val(newContact.firstName);
-	$("#lastNameDis").val(newContact.lastName);
-	$("#fullNameDis").val(newContact.fullName);
-	$("#phoneNumberDis").val(newContact.phoneNumber);
-	$("#addressDis").val("Address:");
-	$("#addressBullet").append("<li>" + newContact.street + ", " + newContact.city + ", " + newContact.state + "</li>");
-	*/
+/* Display the contact clicked from the bulleted list, based on the index of that contact in the array */
+function DisplayContact(contactIndex){
+	var contact = contacts[contactIndex];
+	$(".contactDisplay").show(); 
+	$("#firstNameDis").text(contact.firstName);
+	$("#lastNameDis").text(contact.lastName);
+	$("#fullNameDis").text(contact.fullName);
+	$("#phoneNumberDis").text(contact.phoneNumber);
+	$("#addressDis").text("Address:");
+	$("#addressBullet").empty();
+	$("#addressBullet").append("<li>" + contact.street + ", " + contact.city + ", " + contact.state + "</li>");
 }
 
 $(document).ready(function() {
@@ -39,10 +44,13 @@ $(document).ready(function() {
 
 	CreateNewContact();
 
+	/* Create the array index to be used as a property in the appending below, to be able to display the correct contact */
+	var arrayIndex = contacts.length - 1;
+
 	$(".contactItem").append(
-		"<li style='color:blue'>" + "<button class='contactLinks'>" +
+		"<li>" + "<a href='#' class='contactLinks' data-contact-index='" + arrayIndex + "'>" +
 		$("#firstName").val() + " " + $("#lastName").val() +
-		"</button>" +
+		"</a>" +
 		"</li>"
 
 	);
@@ -51,11 +59,10 @@ $(document).ready(function() {
 
 	});
 
-	$(".contactLinks").submit(function(event) {
-
-		event.preventDefault();
-
-		DisplayContact();
+	/* When the bulleted contact links are clicked, show the contact that was clicked */
+	$("body").on("click", ".contactLinks", function() {
+		var contactIndex = +($(this).data("contact-index"));
+		DisplayContact(contactIndex);
 
 	});
 
