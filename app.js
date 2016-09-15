@@ -2,7 +2,7 @@
 var contacts = [];
 
 var Contact = {
-	firstName: "",
+	firstName: "", 
 	lastName: "",
 	phoneNumber: "",
 	street: "",
